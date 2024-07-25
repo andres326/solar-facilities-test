@@ -1,0 +1,27 @@
+type Facility {
+  id: ID!
+  name: String!
+  power: Int!
+}
+
+type Query {
+  facility(id: ID!): Facility
+  facilities: [Facility]
+}
+
+input CreateFacilityInput {
+  name: String!
+  power: Int!
+}
+
+input UpdateFacilityInput {
+  id: ID!
+  name: String
+  power: Int
+}
+
+type Mutation {
+  createFacility(input: CreateFacilityInput!): Facility
+  updateFacility(input: UpdateFacilityInput!): Facility
+  deleteFacility(id: ID!): Facility
+}
