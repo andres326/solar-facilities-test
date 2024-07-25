@@ -1,0 +1,21 @@
+type SolarFacility {
+  id: ID!
+  name: String!
+  power: Int!
+}
+
+type Query {
+  solarFacility(id: ID!): SolarFacility
+  solarFacilities: [SolarFacility]
+}
+
+input SolarFacilityInput {
+  name: String!
+  power: Int!
+}
+
+type Mutation {
+  createSolarFacility(input: SolarFacilityInput!): SolarFacility
+  updateSolarFacility(input: SolarFacilityInput!): SolarFacility
+  deleteSolarFacility(id: ID!): SolarFacility
+}
