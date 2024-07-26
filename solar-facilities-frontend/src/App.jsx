@@ -1,11 +1,15 @@
+import { client } from "./graphql/queries";
 import { Dashboard } from "./pages/Dashboard";
 import { Layout } from "./pages/_layout";
+import { ApolloProvider } from "@apollo/client";
 
 function App() {
   return (
-    <Layout>
-      <Dashboard />
-    </Layout>
+    <ApolloProvider client={client}>
+      <Layout>
+        <Dashboard />
+      </Layout>
+    </ApolloProvider>
   );
 }
 
