@@ -2,7 +2,11 @@ import { Box, Button, Grid } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { FacilityTable } from "../components/FacilityTable";
 import { DrawerHeaderStyled } from "../components/Drawer/drawer-components";
-import { useCreateFacility, useFacilities } from "../graphql/hooks";
+import {
+  useCreateFacility,
+  useDeleteFacility,
+  useFacilities,
+} from "../graphql/hooks";
 import { BasicModal } from "../components/Modal";
 import { useState } from "react";
 import { FacilityForm } from "../components/FacilityForm";
@@ -10,19 +14,24 @@ import { FacilityForm } from "../components/FacilityForm";
 export const Dashboard = () => {
   const [open, setOpen] = useState(false);
   const { facilities } = useFacilities();
+  const { createFacility } = useCreateFacility();
+  const { deleteFacility } = useDeleteFacility();
 
   const handleOpenModal = () => setOpen(true);
   const handleCloseModal = () => setOpen(false);
-
-  const { createFacility } = useCreateFacility();
 
   const handleCreateFacility = async ({ name, power }) => {
     await createFacility({ name, power: parseInt(power) });
     handleCloseModal();
   };
 
+  const handleDeleteFacility = async ({ id }) => {
+    await deleteFacility(id);
+    console.log({ id });
+  };
+
   return (
-    <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+    <Box component="main" width={"100%"}>
       <DrawerHeaderStyled />
       <Grid container direction="column" spacing={2} component={"main"} p={2}>
         <Grid
@@ -44,7 +53,10 @@ export const Dashboard = () => {
           </BasicModal>
         </Grid>
         <Grid item>
-          <FacilityTable facilities={facilities} />
+          <FacilityTable
+            facilities={facilities}
+            onDelete={handleDeleteFacility}
+          />
         </Grid>
       </Grid>
     </Box>

@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from "@apollo/client";
 import {
   CREATE_FACILITY_MUTATION,
+  DELETE_FACILITY_MUTATION,
   FACILITIES_QUERY,
   FACILITY_QUERY,
 } from "./queries";
@@ -31,13 +32,48 @@ export const useCreateFacility = () => {
           }
         },*/
         update: (cache, { data: { facility } }) => {
-          const data = cache.readQuery({
+          const { facilities } = cache.readQuery({
             query: FACILITIES_QUERY,
           });
 
           cache.writeQuery({
             query: FACILITIES_QUERY,
-            data: { facilities: [...data.facilities, facility] },
+            data: { facilities: [...facilities, facility] },
+          });
+        },
+      });
+      return facility;
+    },
+    loading,
+    error: Boolean(error),
+  };
+};
+
+export const useDeleteFacility = () => {
+  const [mutate, { loading, error }] = useMutation(DELETE_FACILITY_MUTATION);
+  return {
+    deleteFacility: async (id) => {
+      const {
+        data: { facility },
+      } = await mutate({
+        variables: { id },
+        /*context: {
+          headers : {
+            'Authorization': `Bearer ${getAccessToken()}`
+          }
+        },*/
+        update: (cache, { data: { facility } }) => {
+          const { facilities } = cache.readQuery({
+            query: FACILITIES_QUERY,
+          });
+
+          console.log(facilities.filter((fac) => fac.id !== facility.id));
+
+          cache.writeQuery({
+            query: FACILITIES_QUERY,
+            data: {
+              facilities: facilities.filter((fac) => fac.id !== facility.id),
+            },
           });
         },
       });
