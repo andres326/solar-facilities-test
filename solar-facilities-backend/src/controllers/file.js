@@ -2,7 +2,7 @@ import { createReadStream } from "fs";
 import { unlink } from "fs/promises";
 import { parse } from "fast-csv";
 import { CSV_PATH } from "../utils/constants.js";
-import { PerformanceModel } from "../model/performance-data.js";
+import { PerformanceModel } from "../model/performance.js";
 
 export const saveFileData = (req, res) => {
   try {
