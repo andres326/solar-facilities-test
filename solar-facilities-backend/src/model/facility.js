@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { FACILITY_STATUS } from "../utils/helpers.js";
+import { FACILITY_STATUS } from "../utils/constants.js";
 
 const FacilitySchema = new mongoose.Schema({
   name: {

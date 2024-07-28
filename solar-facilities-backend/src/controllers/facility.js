@@ -1,5 +1,5 @@
 import { FacilityModel } from "../model/facility.js";
-import { FACILITY_STATUS } from "../utils/helpers.js";
+import { FACILITY_STATUS } from "../utils/constants.js";
 
 export async function getFacility(id) {
   const facility = await FacilityModel.findById(id);

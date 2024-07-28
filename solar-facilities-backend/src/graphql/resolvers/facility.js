@@ -5,7 +5,7 @@ import {
   getFacility,
   updateFacility,
 } from "../../controllers/facility.js";
-import { FACILITY_STATUS } from "../../utils/helpers.js";
+import { FACILITY_STATUS } from "../../utils/constants.js";
 
 const queries = {
   facility: async (root, { id }) => {
