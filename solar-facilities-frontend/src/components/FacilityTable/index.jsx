@@ -9,6 +9,7 @@ import {
   useFacilities,
 } from "../../graphql/hooks/facilities";
 import { usePerformanceData } from "../../graphql/hooks/performance";
+import { useNavigate } from "react-router-dom";
 const columns = ({ onDelete, onViewData }) => [
   { field: "id", headerName: "ID", width: 200, flex: 1 },
   {
@@ -46,7 +47,7 @@ const columns = ({ onDelete, onViewData }) => [
 export const FacilityTable = () => {
   const { facilities } = useFacilities();
   const { deleteFacility } = useDeleteFacility();
-  const { performanceData } = usePerformanceData("66a3f7b97b3fee4b2960b356");
+  const navigate = useNavigate();
 
   const onDelete = async ({ id }) => {
     await deleteFacility(id);
@@ -54,7 +55,7 @@ export const FacilityTable = () => {
   };
 
   const onViewData = async ({ id }) => {
-    console.log({ performanceData });
+    navigate(`/facility/${id}`);
   };
 
   return (
