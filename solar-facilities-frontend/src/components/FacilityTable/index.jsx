@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import { IconButton, Stack } from "@mui/material";
@@ -8,9 +7,10 @@ import {
   useDeleteFacility,
   useFacilities,
 } from "../../graphql/hooks/facilities";
-import { usePerformanceData } from "../../graphql/hooks/performance";
 import { useNavigate } from "react-router-dom";
-const columns = ({ onDelete, onViewData }) => [
+import { FacilityActions } from "../FacilityActions";
+
+const columns = [
   { field: "id", headerName: "ID", width: 200, flex: 1 },
   {
     field: "name",
@@ -30,39 +30,19 @@ const columns = ({ onDelete, onViewData }) => [
     minWidth: 80,
     flex: 1,
     renderCell: (params) => {
-      return (
-        <Stack direction={"row"} alignItems={"center"} height={"100%"}>
-          <IconButton onClick={() => onDelete(params.row)}>
-            <DeleteIcon />
-          </IconButton>
-          <IconButton onClick={() => onViewData(params.row)}>
-            <RemoveRedEyeIcon />
-          </IconButton>
-        </Stack>
-      );
+      return <FacilityActions row={params.row} />;
     },
   },
 ];
 
 export const FacilityTable = () => {
   const { facilities } = useFacilities();
-  const { deleteFacility } = useDeleteFacility();
-  const navigate = useNavigate();
-
-  const onDelete = async ({ id }) => {
-    await deleteFacility(id);
-    console.log({ id });
-  };
-
-  const onViewData = async ({ id }) => {
-    navigate(`/facility/${id}`);
-  };
 
   return (
     <Box sx={{ height: 500, width: "99%" }}>
       <DataGrid
         rows={facilities}
-        columns={columns({ onDelete, onViewData })}
+        columns={columns}
         initialState={{
           pagination: {
             paginationModel: {

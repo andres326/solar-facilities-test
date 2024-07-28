@@ -1,8 +1,19 @@
 import { ApolloClient, InMemoryCache } from "@apollo/client";
-
-const GRAPHQL_URL = import.meta.env.VITE_GRAPHQL_URI;
+import { GRAPHQL_URI } from "../util/constants";
 
 export const client = new ApolloClient({
-  uri: GRAPHQL_URL,
-  cache: new InMemoryCache(),
+  uri: GRAPHQL_URI,
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          facilities: {
+            merge(existing, incoming) {
+              return incoming;
+            },
+          },
+        },
+      },
+    },
+  }),
 });

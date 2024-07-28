@@ -66,8 +66,6 @@ export const useDeleteFacility = () => {
             query: FACILITIES_QUERY,
           });
 
-          console.log(facilities.filter((fac) => fac.id !== facility.id));
-
           cache.writeQuery({
             query: FACILITIES_QUERY,
             data: {
