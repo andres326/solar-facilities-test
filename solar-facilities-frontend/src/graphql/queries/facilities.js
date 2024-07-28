@@ -1,11 +1,4 @@
-import { ApolloClient, gql, InMemoryCache } from "@apollo/client";
-
-const GRAPHQL_URL = import.meta.env.VITE_GRAPHQL_URI;
-
-export const client = new ApolloClient({
-  uri: GRAPHQL_URL,
-  cache: new InMemoryCache(),
-});
+import { gql } from "@apollo/client";
 
 const FACILITY_DETAIL_FRAGMENT = gql`
   fragment FacilityDetail on Facility {

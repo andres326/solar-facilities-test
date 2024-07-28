@@ -3,8 +3,7 @@ import {
   CREATE_FACILITY_MUTATION,
   DELETE_FACILITY_MUTATION,
   FACILITIES_QUERY,
-  FACILITY_QUERY,
-} from "./queries";
+} from "../queries/facilities";
 
 export const useFacilities = () => {
   const { data, loading, error } = useQuery(FACILITIES_QUERY, {

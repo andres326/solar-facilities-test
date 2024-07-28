@@ -5,12 +5,7 @@ type Performance {
   timestamp: String!
 }
 
-input ReadPerformanceInput {
-  facilityId: ID!
-  startDate: String!
-  endDate: String!
-}
 
 type Query {
-  performanceData(input: ReadPerformanceInput!): [Performance]
+  performanceData(facilityId: ID!): [Performance]
 }

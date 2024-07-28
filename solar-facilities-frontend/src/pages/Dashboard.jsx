@@ -2,20 +2,14 @@ import { Box, Button, Grid } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { FacilityTable } from "../components/FacilityTable";
 import { DrawerHeaderStyled } from "../components/Drawer/drawer-components";
-import {
-  useCreateFacility,
-  useDeleteFacility,
-  useFacilities,
-} from "../graphql/hooks";
+import { useCreateFacility } from "../graphql/hooks/facilities";
 import { BasicModal } from "../components/Modal";
 import { useState } from "react";
 import { FacilityForm } from "../components/FacilityForm";
 
 export const Dashboard = () => {
   const [open, setOpen] = useState(false);
-  const { facilities } = useFacilities();
   const { createFacility } = useCreateFacility();
-  const { deleteFacility } = useDeleteFacility();
 
   const handleOpenModal = () => setOpen(true);
   const handleCloseModal = () => setOpen(false);
@@ -23,11 +17,6 @@ export const Dashboard = () => {
   const handleCreateFacility = async ({ name, power }) => {
     await createFacility({ name, power: parseInt(power) });
     handleCloseModal();
-  };
-
-  const handleDeleteFacility = async ({ id }) => {
-    await deleteFacility(id);
-    console.log({ id });
   };
 
   return (
@@ -53,10 +42,7 @@ export const Dashboard = () => {
           </BasicModal>
         </Grid>
         <Grid item>
-          <FacilityTable
-            facilities={facilities}
-            onDelete={handleDeleteFacility}
-          />
+          <FacilityTable />
         </Grid>
       </Grid>
     </Box>

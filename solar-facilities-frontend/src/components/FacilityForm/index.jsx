@@ -1,6 +1,5 @@
 import { Button, Grid, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { useCreateFacility } from "../../graphql/hooks";
 
 export const FacilityForm = ({ onSubmit }) => {
   const { register, handleSubmit } = useForm();
