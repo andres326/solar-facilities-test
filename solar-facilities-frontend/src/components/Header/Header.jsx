@@ -21,7 +21,7 @@ export const Header = ({ open, handleDrawerOpen }) => {
           <MenuIcon />
         </IconButton>
         <Typography variant="h6" noWrap component="div">
-          Mini variant drawer
+          Facility management system
         </Typography>
       </Toolbar>
     </AppBar>

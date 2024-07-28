@@ -40,12 +40,7 @@ export const FacilityActions = ({ row }) => {
 
   return (
     <>
-      <Stack
-        direction={"row"}
-        alignItems={"center"}
-        height={"100%"}
-        spacing={1}
-      >
+      <Stack direction={"row"} alignItems={"center"} height={"100%"}>
         <IconButton onClick={onView}>
           <RemoveRedEyeIcon />
         </IconButton>
