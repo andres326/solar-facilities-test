@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IconButton, Stack } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
@@ -13,21 +13,32 @@ import {
   useUpdateFacility,
 } from "../../graphql/hooks/facilities";
 import { uploadFile } from "../../services/file";
+import { useShowAlert } from "../../hooks/useShowAlert";
+import { BasicDialog } from "../Dialog";
 
 export const FacilityActions = ({ row }) => {
   const { deleteFacility } = useDeleteFacility();
   const { updateFacility } = useUpdateFacility();
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
   const [isEditing, setEditing] = useState(false);
 
-  const handleOpenModal = () => setOpen(true);
+  const handleOpenDialog = () => setOpenDialog(true);
+
+  const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => {
-    setOpen(false);
+    setOpenModal(false);
+    setOpenDialog(false);
+    setSuccess(false);
+    setError(false);
     if (isEditing) {
       setEditing(false);
     }
   };
+
+  const { success, error, setSuccess, setError } =
+    useShowAlert(handleCloseModal);
 
   const handleEdit = () => {
     setEditing(true);
@@ -36,8 +47,11 @@ export const FacilityActions = ({ row }) => {
 
   const onDelete = async () => {
     const { id } = row;
-    await deleteFacility(id);
-    console.log({ id });
+    try {
+      await deleteFacility(id);
+    } catch {
+      setError(true);
+    }
   };
 
   const onView = async () => {
@@ -48,13 +62,21 @@ export const FacilityActions = ({ row }) => {
   const onUpload = async (data) => {
     const { id } = row;
     const { file } = data;
-    await uploadFile({ file: file[0], id });
-    handleCloseModal();
+    try {
+      await uploadFile({ file: file[0], id });
+      setSuccess(true);
+    } catch {
+      setError(true);
+    }
   };
 
   const onEdit = async ({ name, power }) => {
-    await updateFacility({ id: row.id, name, power: parseInt(power) });
-    handleCloseModal();
+    try {
+      await updateFacility({ id: row.id, name, power: parseInt(power) });
+      setSuccess(true);
+    } catch {
+      setError(true);
+    }
   };
 
   return (
@@ -69,24 +91,37 @@ export const FacilityActions = ({ row }) => {
         <IconButton onClick={handleOpenModal}>
           <FileUploadIcon />
         </IconButton>
-        <IconButton onClick={onDelete}>
+        <IconButton onClick={handleOpenDialog}>
           <DeleteIcon />
         </IconButton>
       </Stack>
       <BasicModal
-        open={open}
+        open={openModal}
         handleClose={handleCloseModal}
         modalTitle={isEditing ? "Edit facility" : "Upload CSV file"}
       >
-        {!isEditing && <DataForm onSubmit={onUpload} />}
+        {!isEditing && (
+          <DataForm onSubmit={onUpload} success={success} error={error} />
+        )}
         {isEditing && (
           <FacilityForm
             onSubmit={onEdit}
             isEditing
             values={{ name: row.name, power: row.power }}
+            success={success}
+            error={error}
           />
         )}
       </BasicModal>
+      <BasicDialog
+        open={openDialog}
+        handleClose={handleCloseModal}
+        handleAction={onDelete}
+        title={"Erase Facility?"}
+        content={"All data will be eliminated and you can not see it again"}
+        action={"Delete"}
+        error={error}
+      />
     </>
   );
 };

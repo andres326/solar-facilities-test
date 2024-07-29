@@ -26,7 +26,7 @@ export const FacilityPerformance = () => {
         <Typography variant="h4">Facility performance data</Typography>
         <p>
           <span style={{ color: "#757575" }}>Facility name: </span>
-          <span>{facility.name}</span>
+          <span>{facility?.name}</span>
         </p>
         <LineChart
           xAxis={[

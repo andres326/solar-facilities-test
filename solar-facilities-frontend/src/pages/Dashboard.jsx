@@ -6,17 +6,29 @@ import { useCreateFacility } from "../graphql/hooks/facilities";
 import { BasicModal } from "../components/Modal";
 import { useState } from "react";
 import { FacilityForm } from "../components/FacilityForm";
+import { useShowAlert } from "../hooks/useShowAlert";
 
 export const Dashboard = () => {
   const [open, setOpen] = useState(false);
   const { createFacility } = useCreateFacility();
 
   const handleOpenModal = () => setOpen(true);
-  const handleCloseModal = () => setOpen(false);
+  const handleCloseModal = () => {
+    setOpen(false);
+    setSuccess(false);
+    setError(false);
+  };
+
+  const { success, error, setSuccess, setError } =
+    useShowAlert(handleCloseModal);
 
   const handleCreateFacility = async ({ name, power }) => {
-    await createFacility({ name, power: parseInt(power) });
-    handleCloseModal();
+    try {
+      await createFacility({ name, power: parseInt(power) });
+      setSuccess(true);
+    } catch {
+      setError(true);
+    }
   };
 
   return (
@@ -42,7 +54,11 @@ export const Dashboard = () => {
             handleClose={handleCloseModal}
             modalTitle={"Add new Facility"}
           >
-            <FacilityForm onSubmit={handleCreateFacility} />
+            <FacilityForm
+              onSubmit={handleCreateFacility}
+              success={success}
+              error={error}
+            />
           </BasicModal>
         </Grid>
         <Grid item>
