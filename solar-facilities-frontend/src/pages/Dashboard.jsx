@@ -37,7 +37,11 @@ export const Dashboard = () => {
           >
             Add Facility
           </Button>
-          <BasicModal open={open} handleClose={handleCloseModal}>
+          <BasicModal
+            open={open}
+            handleClose={handleCloseModal}
+            modalTitle={"Add new Facility"}
+          >
             <FacilityForm onSubmit={handleCreateFacility} />
           </BasicModal>
         </Grid>

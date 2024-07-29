@@ -11,7 +11,6 @@ import { useNavigate } from "react-router-dom";
 import { FacilityActions } from "../FacilityActions";
 
 const columns = [
-  { field: "id", headerName: "ID", width: 200, flex: 1 },
   {
     field: "name",
     headerName: "Facility name",

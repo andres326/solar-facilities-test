@@ -4,19 +4,35 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import EditIcon from "@mui/icons-material/Edit";
+import { useNavigate } from "react-router-dom";
 import { BasicModal } from "../Modal";
 import { DataForm } from "../DataForm";
-import { useNavigate } from "react-router-dom";
-import { useDeleteFacility } from "../../graphql/hooks/facilities";
+import { FacilityForm } from "../FacilityForm";
+import {
+  useDeleteFacility,
+  useUpdateFacility,
+} from "../../graphql/hooks/facilities";
 import { uploadFile } from "../../services/file";
 
 export const FacilityActions = ({ row }) => {
   const { deleteFacility } = useDeleteFacility();
+  const { updateFacility } = useUpdateFacility();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [isEditing, setEditing] = useState(false);
 
   const handleOpenModal = () => setOpen(true);
-  const handleCloseModal = () => setOpen(false);
+  const handleCloseModal = () => {
+    setOpen(false);
+    if (isEditing) {
+      setEditing(false);
+    }
+  };
+
+  const handleEdit = () => {
+    setEditing(true);
+    handleOpenModal();
+  };
 
   const onDelete = async () => {
     const { id } = row;
@@ -36,7 +52,10 @@ export const FacilityActions = ({ row }) => {
     handleCloseModal();
   };
 
-  const onEdit = () => {};
+  const onEdit = async ({ name, power }) => {
+    await updateFacility({ id: row.id, name, power: parseInt(power) });
+    handleCloseModal();
+  };
 
   return (
     <>
@@ -44,7 +63,7 @@ export const FacilityActions = ({ row }) => {
         <IconButton onClick={onView}>
           <RemoveRedEyeIcon />
         </IconButton>
-        <IconButton onClick={onEdit}>
+        <IconButton onClick={handleEdit}>
           <EditIcon />
         </IconButton>
         <IconButton onClick={handleOpenModal}>
@@ -54,8 +73,19 @@ export const FacilityActions = ({ row }) => {
           <DeleteIcon />
         </IconButton>
       </Stack>
-      <BasicModal open={open} handleClose={handleCloseModal}>
-        <DataForm onSubmit={onUpload} />
+      <BasicModal
+        open={open}
+        handleClose={handleCloseModal}
+        modalTitle={isEditing ? "Edit facility" : "Upload CSV file"}
+      >
+        {!isEditing && <DataForm onSubmit={onUpload} />}
+        {isEditing && (
+          <FacilityForm
+            onSubmit={onEdit}
+            isEditing
+            values={{ name: row.name, power: row.power }}
+          />
+        )}
       </BasicModal>
     </>
   );

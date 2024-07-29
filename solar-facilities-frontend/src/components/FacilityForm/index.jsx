@@ -1,7 +1,11 @@
 import { Button, Grid, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 
-export const FacilityForm = ({ onSubmit }) => {
+export const FacilityForm = ({
+  onSubmit,
+  isEditing = false,
+  values = null,
+}) => {
   const { register, handleSubmit } = useForm();
 
   return (
@@ -15,21 +19,26 @@ export const FacilityForm = ({ onSubmit }) => {
       <Grid item container gap={1}>
         <TextField
           required
-          id="name"
           label="Facility name"
-          {...register("name", { required: true })}
+          {...register("name", {
+            required: true,
+            value: values ? values.name : "",
+          })}
         />
         <TextField
           required
-          id="power"
           label="Power"
           type="number"
           inputProps={{ min: 0 }}
-          {...register("power", { required: true, min: 0 })}
+          {...register("power", {
+            required: true,
+            min: 0,
+            value: values ? values.power : "",
+          })}
         />
       </Grid>
       <Button type="submit" variant="contained">
-        Create
+        {isEditing ? "Update" : "Create"}
       </Button>
     </Grid>
   );

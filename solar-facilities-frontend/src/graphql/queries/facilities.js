@@ -43,3 +43,12 @@ export const DELETE_FACILITY_MUTATION = gql`
   }
   ${FACILITY_DETAIL_FRAGMENT}
 `;
+
+export const UPDATE_FACILITY_MUTATION = gql`
+  mutation UpdateFacilityMutation($input: UpdateFacilityInput!) {
+    facility: updateFacility(input: $input) {
+      ...FacilityDetail
+    }
+  }
+  ${FACILITY_DETAIL_FRAGMENT}
+`;

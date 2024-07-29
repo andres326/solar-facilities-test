@@ -15,7 +15,12 @@ const style = {
   p: 4,
 };
 
-export const BasicModal = ({ open, handleClose, children }) => {
+export const BasicModal = ({
+  open,
+  handleClose,
+  children,
+  modalTitle = null,
+}) => {
   return (
     <Modal
       open={open}
@@ -23,7 +28,20 @@ export const BasicModal = ({ open, handleClose, children }) => {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={style}>{children}</Box>
+      <Box sx={style}>
+        {modalTitle && (
+          <Typography
+            variant="h4"
+            gutterBottom
+            paddingBottom={2}
+            marginBottom={3}
+            borderBottom={"solid 1px #f5f5f5"}
+          >
+            {modalTitle}
+          </Typography>
+        )}
+        {children}
+      </Box>
     </Modal>
   );
 };

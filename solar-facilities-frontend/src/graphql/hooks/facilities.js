@@ -3,6 +3,7 @@ import {
   CREATE_FACILITY_MUTATION,
   DELETE_FACILITY_MUTATION,
   FACILITIES_QUERY,
+  UPDATE_FACILITY_MUTATION,
 } from "../queries/facilities";
 
 export const useFacilities = () => {
@@ -38,6 +39,44 @@ export const useCreateFacility = () => {
           cache.writeQuery({
             query: FACILITIES_QUERY,
             data: { facilities: [...facilities, facility] },
+          });
+        },
+      });
+      return facility;
+    },
+    loading,
+    error: Boolean(error),
+  };
+};
+
+export const useUpdateFacility = () => {
+  const [mutate, { loading, error }] = useMutation(UPDATE_FACILITY_MUTATION);
+  return {
+    updateFacility: async (input) => {
+      const {
+        data: { facility },
+      } = await mutate({
+        variables: { input },
+        /*context: {
+          headers : {
+            'Authorization': `Bearer ${getAccessToken()}`
+          }
+        },*/
+        update: (cache, { data: { facility } }) => {
+          const { facilities } = cache.readQuery({
+            query: FACILITIES_QUERY,
+          });
+
+          const indexElement = facilities.findIndex(
+            (el) => el.id === facility.id
+          );
+          const copyFacilities = [...facilities];
+          if (indexElement !== -1) {
+            copyFacilities.splice(indexElement, 1, facility);
+          }
+          cache.writeQuery({
+            query: FACILITIES_QUERY,
+            data: { facilities: [...copyFacilities] },
           });
         },
       });
