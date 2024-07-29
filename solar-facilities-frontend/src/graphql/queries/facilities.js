@@ -20,10 +20,9 @@ export const FACILITIES_QUERY = gql`
 export const FACILITY_QUERY = gql`
   query Facility($id: ID!) {
     facility(id: $id) {
-      ...FacilityDetail
+      name
     }
   }
-  ${FACILITY_DETAIL_FRAGMENT}
 `;
 
 export const CREATE_FACILITY_MUTATION = gql`

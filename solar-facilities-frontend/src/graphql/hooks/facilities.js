@@ -3,6 +3,7 @@ import {
   CREATE_FACILITY_MUTATION,
   DELETE_FACILITY_MUTATION,
   FACILITIES_QUERY,
+  FACILITY_QUERY,
   UPDATE_FACILITY_MUTATION,
 } from "../queries/facilities";
 
@@ -13,6 +14,19 @@ export const useFacilities = () => {
 
   return {
     facilities: data?.facilities,
+    loading,
+    error: Boolean(error),
+  };
+};
+
+export const useFacility = (id) => {
+  const { data, loading, error } = useQuery(FACILITY_QUERY, {
+    fetchPolicy: "network-only",
+    variables: { id },
+  });
+
+  return {
+    facility: data?.facility,
     loading,
     error: Boolean(error),
   };
