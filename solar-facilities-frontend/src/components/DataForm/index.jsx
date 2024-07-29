@@ -18,6 +18,7 @@ export const DataForm = ({ onSubmit, success = false, error = false }) => {
           required
           id="file"
           type="file"
+          inputProps={{ accept: ".csv" }}
           {...register("file", { required: true })}
         />
       </Grid>

@@ -8,10 +8,10 @@ import {
 import { FACILITY_STATUS } from "../../utils/constants.js";
 
 const queries = {
-  facility: async (root, { id }) => {
+  facility: async (_, { id }) => {
     return getFacility(id);
   },
-  facilities: async (root, args) => {
+  facilities: async () => {
     return getAllFacilities();
   },
 };
