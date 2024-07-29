@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, redirect } from "react-router-dom";
 import { useClient } from "./graphql/index";
 import { Dashboard } from "./pages/Dashboard";
 import { Layout } from "./pages/_layout";
@@ -21,6 +21,10 @@ function App() {
             <>
               <Route path={ROUTES.LOGIN} element={<SignIn />} />
               <Route path={ROUTES.REGISTER} element={<SignUp />} />
+              <Route
+                path="*"
+                element={<Navigate to={ROUTES.LOGIN} replace />}
+              />
             </>
           ) : (
             <>
@@ -28,6 +32,10 @@ function App() {
               <Route
                 path={ROUTES.FACILITY_GRAPH}
                 element={<FacilityPerformance />}
+              />
+              <Route
+                path="*"
+                element={<Navigate to={ROUTES.DASHBOARD} replace />}
               />
             </>
           )}
