@@ -19,7 +19,7 @@ import { useAuthContext } from "../../context/useAuthContext";
 
 export const FacilityActions = ({ row }) => {
   const { userId, token } = useAuthContext();
-  const { deleteFacility } = useDeleteFacility();
+  const { deleteFacility } = useDeleteFacility(userId);
   const { updateFacility } = useUpdateFacility();
   const navigate = useNavigate();
   const [openModal, setOpenModal] = useState(false);

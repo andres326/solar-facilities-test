@@ -50,6 +50,7 @@ export const useCreateFacility = () => {
           cache.writeQuery({
             query: FACILITIES_QUERY,
             data: { facilities: [...facilities, facility] },
+            variables: { userId: input.userId },
           });
         },
       });
@@ -84,6 +85,7 @@ export const useUpdateFacility = () => {
           cache.writeQuery({
             query: FACILITIES_QUERY,
             data: { facilities: [...copyFacilities] },
+            variables: { userId: input.userId },
           });
         },
       });
@@ -94,7 +96,7 @@ export const useUpdateFacility = () => {
   };
 };
 
-export const useDeleteFacility = () => {
+export const useDeleteFacility = (userId) => {
   const [mutate, { loading, error }] = useMutation(DELETE_FACILITY_MUTATION);
   return {
     deleteFacility: async (id) => {
@@ -105,6 +107,7 @@ export const useDeleteFacility = () => {
         update: (cache, { data: { facility } }) => {
           const { facilities } = cache.readQuery({
             query: FACILITIES_QUERY,
+            variables: { userId },
           });
 
           cache.writeQuery({
@@ -112,6 +115,7 @@ export const useDeleteFacility = () => {
             data: {
               facilities: facilities.filter((fac) => fac.id !== facility.id),
             },
+            variables: { userId },
           });
         },
       });
