@@ -21,7 +21,7 @@ export const useClient = () => {
       },
     }),
     headers: {
-      Authorization: `${token}`,
+      Authorization: `Bearer ${token}`,
     },
   });
 

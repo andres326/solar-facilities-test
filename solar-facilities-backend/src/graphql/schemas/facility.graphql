@@ -6,18 +6,20 @@ type Facility {
 
 type Query {
   facility(id: ID!): Facility
-  facilities: [Facility]
+  facilities(userId: ID!): [Facility]
 }
 
 input CreateFacilityInput {
   name: String!
   power: Float!
+  userId: ID!
 }
 
 input UpdateFacilityInput {
   id: ID!
   name: String
   power: Float
+  userId: ID!
 }
 
 type Mutation {

@@ -9,8 +9,8 @@ export async function getFacility(id) {
   return facility;
 }
 
-export async function getAllFacilities() {
-  return FacilityModel.find({ status: FACILITY_STATUS.ENABLED });
+export async function getAllFacilities(userId) {
+  return FacilityModel.find({ status: FACILITY_STATUS.ENABLED, userId });
 }
 
 export async function createFacility(body) {

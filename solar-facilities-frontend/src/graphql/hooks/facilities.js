@@ -7,9 +7,10 @@ import {
   UPDATE_FACILITY_MUTATION,
 } from "../queries/facilities";
 
-export const useFacilities = () => {
+export const useFacilities = (userId) => {
   const { data, loading, error } = useQuery(FACILITIES_QUERY, {
     fetchPolicy: "network-only",
+    variables: { userId },
   });
 
   return {
@@ -40,14 +41,10 @@ export const useCreateFacility = () => {
         data: { facility },
       } = await mutate({
         variables: { input },
-        /*context: {
-          headers : {
-            'Authorization': `Bearer ${getAccessToken()}`
-          }
-        },*/
         update: (cache, { data: { facility } }) => {
           const { facilities } = cache.readQuery({
             query: FACILITIES_QUERY,
+            variables: { userId: input.userId },
           });
 
           cache.writeQuery({
@@ -71,14 +68,10 @@ export const useUpdateFacility = () => {
         data: { facility },
       } = await mutate({
         variables: { input },
-        /*context: {
-          headers : {
-            'Authorization': `Bearer ${getAccessToken()}`
-          }
-        },*/
         update: (cache, { data: { facility } }) => {
           const { facilities } = cache.readQuery({
             query: FACILITIES_QUERY,
+            variables: { userId: input.userId },
           });
 
           const indexElement = facilities.findIndex(
@@ -109,11 +102,6 @@ export const useDeleteFacility = () => {
         data: { facility },
       } = await mutate({
         variables: { id },
-        /*context: {
-          headers : {
-            'Authorization': `Bearer ${getAccessToken()}`
-          }
-        },*/
         update: (cache, { data: { facility } }) => {
           const { facilities } = cache.readQuery({
             query: FACILITIES_QUERY,

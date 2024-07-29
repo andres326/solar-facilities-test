@@ -10,8 +10,8 @@ export async function loginUser({ email, password }) {
   });
 
   if (response.ok) {
-    const { token } = await response.json();
-    return { token };
+    const { token, id } = await response.json();
+    return { token, id };
   }
 }
 
@@ -25,7 +25,7 @@ export async function registerUser({ name, email, password }) {
   });
 
   if (response.ok) {
-    const { token } = await response.json();
-    return { token };
+    const { token, id } = await response.json();
+    return { token, id };
   }
 }

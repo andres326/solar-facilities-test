@@ -2,6 +2,7 @@ import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import { useFacilities } from "../../graphql/hooks/facilities";
 import { FacilityActions } from "../FacilityActions";
+import { useAuthContext } from "../../context/useAuthContext";
 
 const columns = [
   {
@@ -28,7 +29,8 @@ const columns = [
 ];
 
 export const FacilityTable = () => {
-  const { facilities } = useFacilities();
+  const { userId } = useAuthContext();
+  const { facilities } = useFacilities(userId);
 
   return (
     <Box sx={{ height: 500, width: "99%" }}>

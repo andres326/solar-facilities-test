@@ -9,8 +9,8 @@ const FACILITY_DETAIL_FRAGMENT = gql`
 `;
 
 export const FACILITIES_QUERY = gql`
-  query Facilities {
-    facilities {
+  query Facilities($userId: ID!) {
+    facilities: facilities(userId: $userId) {
       ...FacilityDetail
     }
   }

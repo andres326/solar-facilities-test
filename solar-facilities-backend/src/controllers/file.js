@@ -1,14 +1,29 @@
 import { createReadStream } from "fs";
 import { unlink } from "fs/promises";
 import { parse } from "fast-csv";
+import jwt from "jsonwebtoken";
 import { CSV_PATH } from "../utils/constants.js";
 import { PerformanceModel } from "../model/performance.js";
 
 export const saveFileData = (req, res) => {
   try {
-    if (req.file == undefined) {
-      return res.status(400).send("Please upload a CSV file!");
+    const authToken = req?.headers?.authorization;
+    if (!authToken) {
+      return res.status(400).send({ message: "Unauthorized" });
     }
+
+    const token = authToken.includes("Bearer")
+      ? authToken.split(" ")[1]
+      : authToken;
+    const userData = jwt.verify(token, process.env.JWT_KEY);
+    if (!userData) {
+      return res.status(400).send({ message: "Unauthorized" });
+    }
+
+    if (!req.file) {
+      return res.status(400).send({ message: "Please upload a CSV file!" });
+    }
+
     const { facilityId } = req.body;
 
     let performanceData = [];

@@ -11,20 +11,25 @@ const queries = {
   facility: async (_, { id }) => {
     return getFacility(id);
   },
-  facilities: async () => {
-    return getAllFacilities();
+  facilities: async (_, { userId }) => {
+    return getAllFacilities(userId);
   },
 };
 
 const mutations = {
   createFacility: async (_, { input }) => {
-    const { name, power } = input;
+    const { name, power, userId } = input;
 
-    return createFacility({ name, power, status: FACILITY_STATUS.ENABLED });
+    return createFacility({
+      name,
+      power,
+      status: FACILITY_STATUS.ENABLED,
+      userId,
+    });
   },
   updateFacility: async (_, { input }) => {
-    const { id, name, power } = input;
-    return updateFacility(id, { name, power });
+    const { id, name, power, userId } = input;
+    return updateFacility(id, { name, power, userId });
   },
   deleteFacility: async (_, { id }) => {
     return deleteFacility(id);

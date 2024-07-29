@@ -24,9 +24,9 @@ const app = express();
 const httpServer = http.createServer(app);
 
 const context = async ({ req, response }) => {
-  const token = req?.headers?.authorization || "";
+  const authToken = req?.headers?.authorization || "";
 
-  if (!token) {
+  if (!authToken) {
     throw new GraphQLError("Token was not provided", {
       extensions: {
         code: "UNAUTHENTICATED",
@@ -34,6 +34,10 @@ const context = async ({ req, response }) => {
       },
     });
   }
+
+  const token = authToken.includes("Bearer")
+    ? authToken.split(" ")[1]
+    : authToken;
 
   const userData = jwt.verify(token, process.env.JWT_KEY);
   const user = UserModel.findById(userData.id);

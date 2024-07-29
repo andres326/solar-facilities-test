@@ -7,9 +7,11 @@ import { BasicModal } from "../components/Modal";
 import { useState } from "react";
 import { FacilityForm } from "../components/FacilityForm";
 import { useShowAlert } from "../hooks/useShowAlert";
+import { useAuthContext } from "../context/useAuthContext";
 
 export const Dashboard = () => {
   const [open, setOpen] = useState(false);
+  const { userId } = useAuthContext();
   const { createFacility } = useCreateFacility();
 
   const handleOpenModal = () => setOpen(true);
@@ -24,7 +26,7 @@ export const Dashboard = () => {
 
   const handleCreateFacility = async ({ name, power }) => {
     try {
-      await createFacility({ name, power: parseInt(power) });
+      await createFacility({ name, power: parseInt(power), userId });
       setSuccess(true);
     } catch {
       setError(true);

@@ -15,8 +15,10 @@ import {
 import { uploadFile } from "../../services/file";
 import { useShowAlert } from "../../hooks/useShowAlert";
 import { BasicDialog } from "../Dialog";
+import { useAuthContext } from "../../context/useAuthContext";
 
 export const FacilityActions = ({ row }) => {
+  const { userId, token } = useAuthContext();
   const { deleteFacility } = useDeleteFacility();
   const { updateFacility } = useUpdateFacility();
   const navigate = useNavigate();
@@ -63,7 +65,7 @@ export const FacilityActions = ({ row }) => {
     const { id } = row;
     const { file } = data;
     try {
-      await uploadFile({ file: file[0], id });
+      await uploadFile({ file: file[0], id }, token);
       setSuccess(true);
     } catch {
       setError(true);
@@ -72,7 +74,12 @@ export const FacilityActions = ({ row }) => {
 
   const onEdit = async ({ name, power }) => {
     try {
-      await updateFacility({ id: row.id, name, power: parseInt(power) });
+      await updateFacility({
+        id: row.id,
+        name,
+        power: parseInt(power),
+        userId,
+      });
       setSuccess(true);
     } catch {
       setError(true);
