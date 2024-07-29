@@ -5,8 +5,13 @@ import IconButton from "@mui/material/IconButton";
 import { DrawerStyled, DrawerHeaderStyled } from "./drawer-components";
 import { List } from "../List";
 import { pages, userActions } from "./config.jsx";
+import { useAuthContext } from "../../context/useAuthContext.js";
 
 export const Drawer = ({ open, handleDrawerClose, theme }) => {
+  const { isLoggedIn, handleLogoutUser } = useAuthContext();
+
+  console.log({ isLoggedIn, handleLogoutUser });
+
   return (
     <DrawerStyled variant="permanent" open={open}>
       <DrawerHeaderStyled>
@@ -21,7 +26,7 @@ export const Drawer = ({ open, handleDrawerClose, theme }) => {
       <Divider />
       <List listOfItems={pages} />
       <Divider />
-      <List listOfItems={userActions} />
+      <List listOfItems={userActions({ logout: handleLogoutUser })} />
     </DrawerStyled>
   );
 };

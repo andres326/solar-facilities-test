@@ -6,4 +6,6 @@ export const pages = [
   { text: "Dashboard", icon: <DashboardIcon />, link: ROUTES.DASHBOARD },
 ];
 
-export const userActions = [{ text: "Logout", icon: <LogoutIcon /> }];
+export const userActions = ({ logout }) => [
+  { text: "Logout", icon: <LogoutIcon />, onClick: logout },
+];

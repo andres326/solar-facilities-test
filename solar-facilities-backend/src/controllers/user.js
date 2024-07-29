@@ -65,5 +65,5 @@ export async function loginUser(req, res) {
     process.env.JWT_KEY,
   );
 
-  return res.status(201).send({ token: userJwt });
+  return res.status(200).send({ token: userJwt });
 }

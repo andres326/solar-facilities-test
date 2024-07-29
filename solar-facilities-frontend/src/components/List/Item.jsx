@@ -15,6 +15,7 @@ export const Item = ({ item }) => {
           px: 2.5,
           color: "#000",
         }}
+        onClick={item.onClick || null}
       >
         {item.icon && (
           <ListItemIcon

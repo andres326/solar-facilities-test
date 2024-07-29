@@ -1,4 +1,6 @@
 export const ROUTES = {
-  DASHBOARD: "/",
+  LOGIN: "/",
+  REGISTER: "/signup",
+  DASHBOARD: "/dashboard",
   FACILITY_GRAPH: "/facility/:slug",
 };
