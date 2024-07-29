@@ -2,12 +2,6 @@
 
 Facility Management System is a project made to allow users to add, edit, delete and upload performance metrics in CSV format
 
-
-### Built With
-
-* [![React][React.js]][React-url]
-
-<!-- GETTING STARTED -->
 ## Getting Started
 
 ### Prerequisites
@@ -41,6 +35,7 @@ To have the project running locally without problems, you will need to create an
 
 ```sh
 DB_URI=PATH_TO_MONGODB_URI
+JWT_KEY=YOUR_KEY
 ```
 
 After that, you can run `npm run dev` and it will start a server at port 4000. You can specify the port adding `PORT` variable to `.env` file.
@@ -67,22 +62,32 @@ It starts a development server and you can access the url from terminal
 <!-- USAGE EXAMPLES -->
 ## Features
 
+### Sign In and Sign Up
+
+To use the application you will need to create an account with your name, email and password. After that you will be inmeddiately redirected to Dashboard page.
+
+![Signup screenshot][signup-screenshot]
+
+If you have already an account you can login directly using your email and password.
+
+![Signin screenshot][signin-screenshot]
+
 ### Dashboard
 You will find all your facilities listed in a table and you can manage them, adding new facilities, editing existing ones, or deleting whicever you want. Also you can upload CSV files for each facility using the upload icon.
 
-[![Dashboard screenshot][dashboard-screenshot]](https://example.com)
+![Dashboard screenshot][dashboard-screenshot]
 
 ### Performance data graph
 Once you upload a csv file for the facility, you can click on _eye icon_ and it will redirects you to the performance data graph for the CSV you uploaded before. In this page you will see how have been the performance for your facility over time.
 
-[![Performance screenshot][performance-screenshot]](https://example.com)
+![Performance screenshot][performance-screenshot]
 
 <!-- ROADMAP -->
 ## Architecture
 
 In the following image is the basic architecture used for develop this project
 
-[![Performance screenshot][architecture-screenshot]]
+![Architecture screenshot][architecture-screenshot]
 
 The client comunicates over http using Graphql queries and mutations for all operations except uploading CSV file. For that operation a regular REST endpoint was created to avoid complexity managing files with Graphql. On backend the same http server receives all requests and redirects them to their corresponding route. Backend is using a MVC model creating controller for each model resource, that approach allows to implement testing easily.
 
@@ -107,12 +112,12 @@ type Performance {
 
 #### Facility queries and mutations
 
-Facility type has two queries, the first one is called `facilities` and it retrieves all facilities in an array, and the second one is called `facility` which receives and id and retrieves the specified facility.
+Facility type has two queries, the first one is called `facilities` and it retrieves all facilities in an array for a userId provided, and the second one is called `facility` which receives and id and retrieves the specified facility.
 
 ```graphql
 type Query {
   facility(id: ID!): Facility
-  facilities: [Facility]
+  facilities(userId: ID!): [Facility]
 }
 ```
 
@@ -122,12 +127,14 @@ Facility type has three mutations: `createFacility` which receives and input and
 input CreateFacilityInput {
   name: String!
   power: Float!
+  userId: ID!
 }
 
 input UpdateFacilityInput {
   id: ID!
   name: String
   power: Float
+  userId: ID!
 }
 
 type Mutation {
@@ -154,6 +161,6 @@ type Query {
 [linkedin-url]: https://linkedin.com/in/linkedin_username
 [dashboard-screenshot]: images/dashboard.png
 [performance-screenshot]: images/performance.png
+[signup-screenshot]: images/signup.png
+[signin-screenshot]: images/signin.png
 [architecture-screenshot]: images/architecture.svg
-[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
-[React-url]: https://reactjs.org/
