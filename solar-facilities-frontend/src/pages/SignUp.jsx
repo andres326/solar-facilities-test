@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../context/useAuthContext";
 import { Alert } from "../components/Alert";
+import { ROUTES } from "../util/routes";
 
 export const SignUp = () => {
   const { register, handleSubmit } = useForm();
@@ -72,6 +73,13 @@ export const SignUp = () => {
           >
             Sign Up
           </Button>
+          <Grid container>
+            <Grid item>
+              <Link to={ROUTES.LOGIN}>
+                {"Already have an account? Sign In"}
+              </Link>
+            </Grid>
+          </Grid>
         </Box>
       </Box>
     </Container>

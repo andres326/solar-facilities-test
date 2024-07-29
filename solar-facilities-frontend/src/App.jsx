@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { client } from "./graphql/index";
+import { useClient } from "./graphql/index";
 import { Dashboard } from "./pages/Dashboard";
 import { Layout } from "./pages/_layout";
 import { ApolloProvider } from "@apollo/client";
@@ -11,6 +11,7 @@ import { SignUp } from "./pages/SignUp";
 
 function App() {
   const { isLoggedIn } = useAuthContext();
+  const { client } = useClient();
 
   return (
     <ApolloProvider client={client}>

@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useMemo, useState } from "react";
 import { loginUser, registerUser } from "../services/user";
 import { ACCESS_TOKEN_KEY } from "../util/constants";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +12,10 @@ export function AuthProvider({ children }) {
   const [isLoggedIn, setLoggedIn] = useState(
     localStorage.getItem(ACCESS_TOKEN_KEY)
   );
+
+  const token = useMemo(() => {
+    return localStorage.getItem(ACCESS_TOKEN_KEY);
+  }, [isLoggedIn]);
 
   const [errorLogin, setErrorLogin] = useState(false);
   const [errorRegister, setErrorRegister] = useState(false);
@@ -67,6 +71,7 @@ export function AuthProvider({ children }) {
         handleRegisterUser,
         errorLogin,
         errorRegister,
+        token,
       }}
     >
       {children}

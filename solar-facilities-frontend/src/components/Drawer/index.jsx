@@ -8,9 +8,7 @@ import { pages, userActions } from "./config.jsx";
 import { useAuthContext } from "../../context/useAuthContext.js";
 
 export const Drawer = ({ open, handleDrawerClose, theme }) => {
-  const { isLoggedIn, handleLogoutUser } = useAuthContext();
-
-  console.log({ isLoggedIn, handleLogoutUser });
+  const { handleLogoutUser } = useAuthContext();
 
   return (
     <DrawerStyled variant="permanent" open={open}>

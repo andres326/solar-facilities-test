@@ -1,13 +1,6 @@
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
-import { IconButton, Stack } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-import {
-  useDeleteFacility,
-  useFacilities,
-} from "../../graphql/hooks/facilities";
-import { useNavigate } from "react-router-dom";
+import { useFacilities } from "../../graphql/hooks/facilities";
 import { FacilityActions } from "../FacilityActions";
 
 const columns = [
