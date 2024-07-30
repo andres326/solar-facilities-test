@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   Container,
   Grid,
   TextField,
@@ -14,7 +15,7 @@ import { ROUTES } from "../util/routes";
 
 export const SignIn = () => {
   const { register, handleSubmit } = useForm();
-  const { handleLoginUser, errorLogin } = useAuthContext();
+  const { handleLoginUser, error, loading } = useAuthContext();
 
   return (
     <Container component="main" maxWidth="xs">
@@ -52,11 +53,17 @@ export const SignIn = () => {
             autoComplete="current-password"
             {...register("password", { required: true })}
           />
-          {errorLogin && <Alert type="error" text="Invalid credentials" />}
+          {error && <Alert type="error" text="Invalid credentials" />}
+          {loading && (
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <CircularProgress />
+            </Box>
+          )}
           <Button
             type="submit"
             fullWidth
             variant="contained"
+            disabled={loading}
             sx={{ mt: 3, mb: 2 }}
           >
             Sign In

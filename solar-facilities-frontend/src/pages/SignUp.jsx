@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   Container,
   Grid,
   TextField,
@@ -14,7 +15,7 @@ import { ROUTES } from "../util/routes";
 
 export const SignUp = () => {
   const { register, handleSubmit } = useForm();
-  const { handleRegisterUser, errorRegister } = useAuthContext();
+  const { handleRegisterUser, error, loading } = useAuthContext();
 
   return (
     <Container component="main" maxWidth="xs">
@@ -62,8 +63,11 @@ export const SignUp = () => {
             autoComplete="current-password"
             {...register("password", { required: true })}
           />
-          {errorRegister && (
-            <Alert type="error" text="There was an error, try later" />
+          {error && <Alert type="error" text="There was an error, try later" />}
+          {loading && (
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <CircularProgress />
+            </Box>
           )}
           <Button
             type="submit"

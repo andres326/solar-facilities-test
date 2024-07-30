@@ -21,45 +21,37 @@ export function AuthProvider({ children }) {
     return localStorage.getItem(ACCESS_TOKEN_KEY);
   }, [isLoggedIn]);
 
-  const [errorLogin, setErrorLogin] = useState(false);
-  const [errorRegister, setErrorRegister] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
-  const handleLoginUser = async ({ email, password }) => {
+  const authUserLogic = async (callback) => {
     try {
-      const { token, id } = await loginUser({ email, password });
+      setError(false);
+      setLoading(true);
+      const { token, id } = await callback();
       if (!token) {
-        setErrorLogin(true);
+        setError(true);
         return;
       }
 
-      setErrorLogin(false);
       setLoggedIn(true);
       localStorage.setItem(ACCESS_TOKEN_KEY, token);
       localStorage.setItem(USER_ID_KEY, id);
       navigate(ROUTES.DASHBOARD);
     } catch {
       setLoggedIn(false);
-      setErrorLogin(true);
+      setError(true);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleRegisterUser = async ({ name, email, password }) => {
-    try {
-      const { token, id } = await registerUser({ name, email, password });
-      if (!token) {
-        setErrorRegister(true);
-        return;
-      }
+  const handleLoginUser = async ({ email, password }) => {
+    return authUserLogic(() => loginUser({ email, password }));
+  };
 
-      setErrorRegister(false);
-      setLoggedIn(true);
-      localStorage.setItem(ACCESS_TOKEN_KEY, token);
-      localStorage.setItem(USER_ID_KEY, id);
-      navigate(ROUTES.DASHBOARD);
-    } catch {
-      setLoggedIn(false);
-      setErrorRegister(true);
-    }
+  const handleRegisterUser = async ({ name, email, password }) => {
+    return authUserLogic(() => registerUser({ name, email, password }));
   };
 
   const handleLogoutUser = () => {
@@ -76,8 +68,8 @@ export function AuthProvider({ children }) {
         handleLoginUser,
         handleLogoutUser,
         handleRegisterUser,
-        errorLogin,
-        errorRegister,
+        error,
+        loading,
         token,
         userId,
       }}
