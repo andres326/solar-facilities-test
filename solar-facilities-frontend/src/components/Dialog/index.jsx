@@ -7,6 +7,7 @@ import {
   Button,
 } from "@mui/material";
 import { Alert } from "../Alert";
+import { Loading } from "../Loading";
 
 export const BasicDialog = ({
   open,
@@ -16,6 +17,7 @@ export const BasicDialog = ({
   content = null,
   action = null,
   error = false,
+  loading = false,
 }) => {
   return (
     <MuiDialog
@@ -35,10 +37,11 @@ export const BasicDialog = ({
       {error && (
         <Alert type="error" text="There was something wrong try later" />
       )}
+      {loading && <Loading />}
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
         {action && (
-          <Button onClick={handleAction} autoFocus>
+          <Button onClick={handleAction} autoFocus disabled={loading}>
             {action}
           </Button>
         )}

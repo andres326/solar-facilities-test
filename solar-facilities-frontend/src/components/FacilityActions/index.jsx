@@ -12,15 +12,17 @@ import {
   useDeleteFacility,
   useUpdateFacility,
 } from "../../graphql/hooks/facilities";
-import { uploadFile } from "../../services/file";
 import { useShowAlert } from "../../hooks/useShowAlert";
 import { BasicDialog } from "../Dialog";
 import { useAuthContext } from "../../context/useAuthContext";
+import { useUploadFile } from "../../hooks/useUploadFile";
+import { ROUTES } from "../../util/routes";
 
 export const FacilityActions = ({ row }) => {
   const { userId, token } = useAuthContext();
-  const { deleteFacility } = useDeleteFacility(userId);
-  const { updateFacility } = useUpdateFacility();
+  const { deleteFacility, loading: deleteLoading } = useDeleteFacility(userId);
+  const { updateFacility, loading: updateLoading } = useUpdateFacility();
+  const { uploadCSVFile, loading: uploadLoading } = useUploadFile();
   const navigate = useNavigate();
   const [openModal, setOpenModal] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
@@ -58,15 +60,16 @@ export const FacilityActions = ({ row }) => {
 
   const onView = async () => {
     const { id } = row;
-    navigate(`/facility/${id}`);
+    navigate(`${ROUTES.FACILITY}/${id}`);
   };
 
   const onUpload = async (data) => {
     const { id } = row;
     const { file } = data;
     try {
-      await uploadFile({ file: file[0], id }, token);
+      await uploadCSVFile({ file: file[0], id }, token);
       setSuccess(true);
+      navigate(`${ROUTES.FACILITY}/${id}`);
     } catch {
       setError(true);
     }
@@ -108,7 +111,12 @@ export const FacilityActions = ({ row }) => {
         modalTitle={isEditing ? "Edit facility" : "Upload CSV file"}
       >
         {!isEditing && (
-          <DataForm onSubmit={onUpload} success={success} error={error} />
+          <DataForm
+            onSubmit={onUpload}
+            success={success}
+            error={error}
+            loading={uploadLoading}
+          />
         )}
         {isEditing && (
           <FacilityForm
@@ -117,6 +125,7 @@ export const FacilityActions = ({ row }) => {
             values={{ name: row.name, power: row.power }}
             success={success}
             error={error}
+            loading={updateLoading}
           />
         )}
       </BasicModal>
@@ -128,6 +137,7 @@ export const FacilityActions = ({ row }) => {
         content={"All data will be eliminated and you can not see it again"}
         action={"Delete"}
         error={error}
+        loading={deleteLoading}
       />
     </>
   );

@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  CircularProgress,
   Container,
   Grid,
   TextField,
@@ -12,6 +11,7 @@ import { Link } from "react-router-dom";
 import { useAuthContext } from "../context/useAuthContext";
 import { Alert } from "../components/Alert";
 import { ROUTES } from "../util/routes";
+import { Loading } from "../components/Loading";
 
 export const SignUp = () => {
   const { register, handleSubmit } = useForm();
@@ -64,11 +64,7 @@ export const SignUp = () => {
             {...register("password", { required: true })}
           />
           {error && <Alert type="error" text="There was an error, try later" />}
-          {loading && (
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
-              <CircularProgress />
-            </Box>
-          )}
+          {loading && <Loading />}
           <Button
             type="submit"
             fullWidth

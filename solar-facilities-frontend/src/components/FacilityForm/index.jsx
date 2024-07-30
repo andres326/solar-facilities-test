@@ -1,6 +1,7 @@
 import { Button, Grid, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { Alert } from "../Alert";
+import { Loading } from "../Loading";
 
 export const FacilityForm = ({
   onSubmit,
@@ -8,6 +9,7 @@ export const FacilityForm = ({
   values = null,
   success = false,
   error = false,
+  loading = false,
 }) => {
   const { register, handleSubmit } = useForm();
 
@@ -40,7 +42,8 @@ export const FacilityForm = ({
           })}
         />
       </Grid>
-      <Button type="submit" variant="contained">
+      {loading && <Loading />}
+      <Button type="submit" variant="contained" disabled={loading}>
         {isEditing ? "Update" : "Create"}
       </Button>
       {success && <Alert text="Succesfully done!" />}

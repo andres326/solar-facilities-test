@@ -30,7 +30,7 @@ const columns = [
 
 export const FacilityTable = () => {
   const { userId } = useAuthContext();
-  const { facilities } = useFacilities(userId);
+  const { facilities, loading } = useFacilities(userId);
 
   return (
     <Box sx={{ height: 500, width: "99%" }}>
@@ -46,6 +46,7 @@ export const FacilityTable = () => {
         }}
         pageSizeOptions={[10]}
         disableRowSelectionOnClick
+        loading={loading}
       />
     </Box>
   );

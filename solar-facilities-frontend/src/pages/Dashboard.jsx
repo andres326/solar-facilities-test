@@ -12,7 +12,7 @@ import { useAuthContext } from "../context/useAuthContext";
 export const Dashboard = () => {
   const [open, setOpen] = useState(false);
   const { userId } = useAuthContext();
-  const { createFacility } = useCreateFacility();
+  const { createFacility, loading } = useCreateFacility();
 
   const handleOpenModal = () => setOpen(true);
   const handleCloseModal = () => {
@@ -60,6 +60,7 @@ export const Dashboard = () => {
               onSubmit={handleCreateFacility}
               success={success}
               error={error}
+              loading={loading}
             />
           </BasicModal>
         </Grid>

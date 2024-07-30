@@ -1,8 +1,14 @@
 import { Button, Grid, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { Alert } from "../Alert";
+import { Loading } from "../Loading";
 
-export const DataForm = ({ onSubmit, success = false, error = false }) => {
+export const DataForm = ({
+  onSubmit,
+  success = false,
+  error = false,
+  loading = false,
+}) => {
   const { register, handleSubmit } = useForm();
 
   return (
@@ -22,7 +28,8 @@ export const DataForm = ({ onSubmit, success = false, error = false }) => {
           {...register("file", { required: true })}
         />
       </Grid>
-      <Button type="submit" variant="contained">
+      {loading && <Loading />}
+      <Button type="submit" variant="contained" disabled={loading}>
         Upload
       </Button>
       {success && <Alert text="Succesfully done!" />}

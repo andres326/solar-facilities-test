@@ -5,10 +5,11 @@ import { Box, Grid, Typography } from "@mui/material";
 import { LineChart } from "@mui/x-charts";
 import { useMemo } from "react";
 import { useFacility } from "../graphql/hooks/facilities";
+import { Loading } from "../components/Loading";
 
 export const FacilityPerformance = () => {
   const { slug } = useParams();
-  const { performanceData } = usePerformanceData(slug);
+  const { performanceData, loading } = usePerformanceData(slug);
   const { facility } = useFacility(slug);
 
   const yAxis = useMemo(() => {
@@ -28,31 +29,35 @@ export const FacilityPerformance = () => {
           <span style={{ color: "#757575" }}>Facility name: </span>
           <span>{facility?.name}</span>
         </p>
-        <LineChart
-          xAxis={[
-            {
-              label: "Time",
-              data: xAxis,
-              tickInterval: "auto",
-              scaleType: "time",
-            },
-          ]}
-          yAxis={[
-            {
-              min: 0,
-              valueFormatter: (value) => `${value} kW`,
-            },
-          ]}
-          series={[
-            {
-              label: "Power (kW)",
-              data: yAxis,
-              showMark: false,
-            },
-          ]}
-          width={700}
-          height={300}
-        />
+        {loading ? (
+          <Loading />
+        ) : (
+          <LineChart
+            xAxis={[
+              {
+                label: "Time",
+                data: xAxis,
+                tickInterval: "auto",
+                scaleType: "time",
+              },
+            ]}
+            yAxis={[
+              {
+                min: 0,
+                valueFormatter: (value) => `${value} kW`,
+              },
+            ]}
+            series={[
+              {
+                label: "Power (kW)",
+                data: yAxis,
+                showMark: false,
+              },
+            ]}
+            width={700}
+            height={300}
+          />
+        )}
       </Grid>
     </Box>
   );
