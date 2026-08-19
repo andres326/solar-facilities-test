@@ -14,7 +14,7 @@ To run this software locally you need:
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/andres326/solar-facilities-test.git
+   git clone https://github.com/pcubillos326/solar-facilities-test.git
    ```
 3. Install libraries on frontend
    ```sh
